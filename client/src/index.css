@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* 
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+} */
+
+
+/* 
+header{
+  background-color: #404040;
+  padding: 1rem;
+}
+header a{
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+} */
+
+.products{
+  display: flex;
+  ;
+}
+
+.product{
+  border: 1px solid blanchedalmond;
+  margin :1rem;
+}
+.product img{
+  width: 100%;
+  max-width: 400px;
+}
+main{
+  padding: 1rem;
+}
+.product-info{
+  padding: 1rem;
+}
+.rating span{ 
+  color:gold
+
+}
+.rating reviews{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: black;
+}
+
+.img-large{
+  max-width: 100%
+  ;
+}
+.img-thumbnail {
+  height: 80px;
+}
+.small-container{
+  max-width: 600px;
+  
+}
+
+
+.checkout-steps > div {
+  border-bottom: 0.2rem solid #a0a0a0;
+  color: #a0a0a0;
+}
+.checkout-steps > div.active {
+  border-bottom: 0.2rem solid #f08000;
+  color: #f08000;
+}
