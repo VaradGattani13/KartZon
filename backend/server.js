@@ -8,7 +8,9 @@ import expressAsyncHandler from 'express-async-handler';
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
 
+import cors from 'cors'
 
 mongoose.set('strictQuery', false);
 dotenv.config();
@@ -23,8 +25,29 @@ mongoose.connect(process.env.MONGODB_URI)
 })
 
 const app=express();
+app.use(cors());
+
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }));
+app.get('/api/keys/paypal', (req, res) => {
+
+    //sb ->sandbox
+    res.send(process.env.PAYPAL_TOKEN || 'sb');
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
+
 app.use('/api/seed',seedRouter)
 
 
@@ -41,6 +64,9 @@ app.use('/api/products',productRouter)
 app.use('/api/users',userRouter);
 
 
+
+// Order Router
+app.use('/api/orders',orderRouter);
 
  
 

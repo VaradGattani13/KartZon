@@ -41,7 +41,7 @@ const {userInfo}=state;
       return;
     }
     try{
-      const {data}=await axios.post('api/users/signout',{
+      const {data}=await axios.post('https://kartzon.onrender.com/api/users/signout',{
         name,
         email,
         password,

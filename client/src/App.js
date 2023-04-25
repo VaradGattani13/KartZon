@@ -9,7 +9,7 @@ import {LinkContainer} from 'react-router-bootstrap'
 import Badge from 'react-bootstrap/esm/Badge';
 import Nav from 'react-bootstrap/esm/Nav'
 import { Store } from './Store';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import CartScreen from './screens/CartScreen';
 
 import SigninScreen from './screens/SigninScreen';
@@ -20,6 +20,9 @@ import ShippingAdd from './screens/ShippingAdd';
 import SignoutScreen from './screens/SignoutScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import UserProfileScreen from './screens/UserProfileScreen';
 // import { Store } from './Store';
 
 function App() {
@@ -36,18 +39,44 @@ function App() {
     localStorage.removeItem('paymentMethod');
   };
 
-  return (
+
+
+
+const [sidebarIsOpen,setsidebarIsOpen]=useState(false)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  return (  
     <BrowserRouter >
-    <div className="App"> 
+    <div
+        className={
+          sidebarIsOpen
+            ? 'd-flex flex-column site-container active-cont'
+            : 'd-flex flex-column site-container'
+        }
+      >
     <ToastContainer position="bottom-center" limit={1} />
       <header>
       {/* Setting up react bootstarp Nabvar */}
-      <Navbar bg='dark' variant='dark'>
+      <Navbar bg='dark' variant='dark' expand='lg'>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>ForzedZon</Navbar.Brand>
+            <Navbar.Brand>KartZon</Navbar.Brand>
             </LinkContainer>
-            <Nav className='me-auto'>
+            <Navbar.Toggle aria-controls='basic-navbar-nav'/>
+            <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className='me-auto w-100  justify-content-end'>
               <Link to="/cart" className='nav-link'>
                 Cart
                 {
@@ -88,6 +117,7 @@ function App() {
 
 
             </Nav>
+            </Navbar.Collapse>
           
         </Container>
       </Navbar>
@@ -109,11 +139,23 @@ function App() {
 
           <Route path='/shipping' element={<ShippingAdd/>}/>
 {/* Payment Route */}
-          <Route path='payment' element={<PaymentScreen/>}/>
+          <Route path='/payment' element={<PaymentScreen/>}/>
 
           {/* Place order Route */}
           <Route path='/placeorder' element={<PlaceOrderScreen/>} />
 
+                {/* Orderr Screen Route */}
+            <Route path='/order/:id' element={<OrderScreen/>}/>
+        
+        {/* OrderHistory Router */}
+              <Route path='/orderhistory' element={<OrderHistoryScreen/>} />
+        
+      
+      
+      
+      {/* User Profile Router */}
+      <Route path='/profile' element={<UserProfileScreen/>}/>
+      
         </Routes>
       </Container>
        

@@ -10,10 +10,37 @@ import { Store } from '../Store'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
-
+import { useReducer } from 'react'
+import { toast } from 'react-toastify'
+import { getError } from '../utils'
+import Axios from 'axios'
 import { useContext } from 'react'
+import LoadingBox from '../components/LoadingBox'
+
+
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'CREATE_REQUEST':
+      return { ...state, loading: true };
+    case 'CREATE_SUCCESS':
+      return { ...state, loading: false };
+    case 'CREATE_FAIL':
+      return { ...state, loading: false };
+    default:
+      return state;
+  }
+};
+
+
+
 const PlaceOrderScreen = () => {
     const navigate=useNavigate();
+    const [{ loading }, dispatch] = useReducer(reducer, {
+      loading: false,
+      
+    });
+  
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const {cart,userInfo}=state;
@@ -29,7 +56,51 @@ const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.234
 
 
 
-   const placeOrderHandler=async()=>{};
+   const placeOrderHandler=async()=>{
+
+    try{
+
+      dispatch({ type: 'CREATE_REQUEST' });
+
+      const { data } = await Axios.post(
+        'https://kartzon.onrender.com/api/orders',
+        {
+          orderItems: cart.cartItems,
+          shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          shippingPrice: cart.shippingPrice,
+          taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        },
+
+
+        // 2nd parameter for aoptions of axios
+        {
+          headers: {
+            authorization: `Bearer ${userInfo.token}`,
+          },
+        }
+      );
+      // Yeh store pe
+      ctxDispatch({ type: 'CART_CLEAR' });
+      //Yeh reducer pe upar jo defined hai
+      dispatch({ type: 'CREATE_SUCCESS' });
+
+
+      localStorage.removeItem('cartItems');
+      navigate(`/order/${data.order._id}`);
+
+
+
+    }catch(err){
+      dispatch({ type: 'CREATE_FAIL' });
+      toast.error(getError(err));
+
+    }
+
+
+   };
    useEffect(() => {
     if (!cart.paymentMethod) {
       navigate('/payment');
@@ -138,6 +209,7 @@ const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.234
                       Place Order
                     </Button>
                   </div>
+                  {loading && <LoadingBox></LoadingBox>}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>

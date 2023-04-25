@@ -1,5 +1,6 @@
-import React, { useEffect, useReducer, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useReducer } from 'react'
+// import React, { useEffect, useReducer, useState } from 'react'
+// import { Link } from 'react-router-dom'
 // import data from '../data'
 import axios from 'axios'
 import logger from 'use-reducer-logger'
@@ -39,7 +40,7 @@ const HomeScreen = () => {
             const fetchData=async()=>{
               dispatch({type:'FETCH_REQUEST'});
               try{
-                const result=await axios.get('/api/products');
+                const result=await axios.get('https://kartzon.onrender.com/api/products');
                 dispatch({type:'FETCH_SUCCESS',payload:result.data})
 
               }catch(err){
@@ -56,7 +57,7 @@ const HomeScreen = () => {
   return (
     <div>
     <Helmet>
-      <title>ForzedZon</title>
+      <title>KartZon</title>
     </Helmet>
     
     <h1>
